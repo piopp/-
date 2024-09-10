@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+</head>
+<body>
+
+
+
+<form class="layui-form" action="" id="form1">
+<br>
+    <div class="layui-form-item">
+<!--        <div class="layui-inline">-->
+<!--            <label class="layui-form-label">序号</label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="pid" required   autocomplete="off" class="layui-input">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name"  required    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="password"  required  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" required  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+
+        <!--<div class="layui-inline">
+            <label class="layui-form-label">生日</label>
+            <div class="layui-input-inline">
+                <input type="text" name="birthday" id="date"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>-->
+        <div class="layui-inline">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-inline">
+                <input type="text" name="jurisdiction" required  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-inline">
+                <input type="text" name="phone"  required   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input type="text" name="email"  required   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</form>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="submit" onclick="doSave()" class="layui-btn" >立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</div>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+
+   var $,layer;
+   layui.use(['form','laydate'],function () {
+       var laydate=layui.laydate;
+       $=layui.jquery;
+       layer=layui.layer;
+
+       laydate.render({
+           elem: '#date1'
+       });
+       laydate.render({
+           elem: '#date'
+       });
+   })
+
+   /* layui.use(['form','laydate'],function (){
+
+       var laydate = layui.laydate;
+
+       $=layui.jquery;
+       layer=layui.layer;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+
+    })*/
+/*
+   function doSave() {
+       var requestData=$("form1").serialize();
+        $.post("/userm/save",requestData,function (responseData) {
+            if (responseData.success==1){
+                parent.layer.alert("添加成功",{yes:function () {
+                        parent.layer.closeAll();
+                        window.parent.location.reload();
+                    }});
+            }
+        });
+   }*/
+
+
+
+    function doSave() {
+       var requestData = $("#form1").serialize();
+
+        $.post("/user/save",requestData,function (responseData) {
+            if(responseData.success == 1){
+               parent.layer.alert("添加用户成功",{yes:function () {
+                       parent.layer.closeAll();
+/*
+                       window.parent.location.reload();
+*/
+                   }});
+            }
+            
+        });
+    }
+
+
+
+</script>
+
+</body>
+</html>
