@@ -5,6 +5,68 @@ from flask import render_template, request, jsonify
 def userlist():
     return render_template("user/list.html")
 
+@app.route('/user/edit', methods=['POST'])
+def useredit():
+    data = request.get_json()
+    return render_template("user/edit.html", data = data)
+
+@app.route('/user/add', methods=['POST'])
+def useradd():
+    data = request.get_json()
+    return render_template("user/add.html", data = data)
+
+@app.route('/user/save', methods=['POST'])
+def usersave():
+    data = request.form
+    name = data.get('name')
+    username = data.get('username')
+    jurisdiction = int(data.get('jurisdiction'))
+    phone = data.get('phone')
+    cursor = mysql.connection.cursor()
+    sql = "INSERT INTO user  (name, username, jurisdiction, phone)  VALUES (%s,%s,%s,%s)"
+    cursor.execute(sql, (name, username, jurisdiction, phone))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '添加失败'})
+
+@app.route('/user/delete', methods=['POST'])
+def userdelete():
+    data = request.get_json()
+    ids = [item["id"] for item in data]
+    cursor = mysql.connection.cursor()
+    placeholders = ','.join(['%s'] * len(ids))  # 创建与 ids 列表长度相同的占位符字符串
+    sql = "DELETE FROM user WHERE id IN ({})".format(placeholders)
+    cursor.execute(sql, ids)
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '添加失败'})
+
+
+@app.route('/user/save1', methods=['POST'])
+def usersave1():
+    data = request.form
+    user_id = int(data.get('id'))
+    name = data.get('name')
+    username = data.get('username')
+    jurisdiction = int(data.get('jurisdiction'))
+    phone = data.get('phone')
+    cursor = mysql.connection.cursor()
+    sql = "UPDATE user SET name = %s, username = %s, jurisdiction = %s,phone = %s WHERE id = %s"
+    cursor.execute(sql, (name, username, jurisdiction, phone, user_id))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '未修改内容'})
+
+
 @app.route('/getuser')
 def getuser():
     page = int(request.args.get('page', 1))

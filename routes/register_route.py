@@ -20,6 +20,7 @@ def register_with_id():
     cursor.execute("SELECT * FROM user where phone = %s", (js['cellphone'],))
     data = cursor.fetchall()
     if data:
+        cursor.close()
         return {
             'code':-1,
             'message':'手机号已被注册'
