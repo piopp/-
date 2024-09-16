@@ -18,7 +18,7 @@ def getsample():
     result = cursor.fetchall()
     keys = ["id", "透析方式", "透析年限", "透析通路", "平时脱水量比例","充血性心衰","透析时血压","血红蛋白","钙","白蛋白","前白蛋白","LDH","铁","铁蛋白","住院"]
     data = [dict(zip(keys, item)) for item in result]
-    sql = "SELECT COUNT(*) FROM user"
+    sql = "SELECT COUNT(*) FROM sample"
     cursor.execute(sql)
     count = cursor.fetchall()
     cursor.close()
@@ -30,3 +30,84 @@ def getsample():
         'count': count,
         'data': data
     })
+
+
+@app.route('/sample/edit', methods=['POST'])
+def sampleedit():
+    data = request.get_json()
+    return render_template("sample/edit.html", data = data)
+
+@app.route('/sample/add', methods=['POST'])
+def sampleadd():
+    data = request.get_json()
+    return render_template("sample/add.html", data = data)
+
+@app.route('/sample/save', methods=['POST'])
+def samplesave():
+    data = request.form
+    id = data['id']
+    透析方式 = data['透析方式']
+    透析通路 = data['透析通路']
+    平时脱水量比例 = data['平时脱水量比例']
+    充血性心衰 = data['充血性心衰']
+    透析时血压 = data['透析时血压']
+    血红蛋白 = data['血红蛋白']
+    钙 = data['钙']
+    白蛋白 = data['白蛋白']
+    前白蛋白 = data['前白蛋白']
+    LDH = data['LDH']
+    铁 = data['铁']
+    铁蛋白 = data['铁蛋白']
+    住院 = data['住院']
+    cursor = mysql.connection.cursor()
+    sql = "INSERT INTO sample  (透析方式, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (透析方式, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '添加失败'})
+
+@app.route('/sample/delete', methods=['POST'])
+def sampledelete():
+    data = request.get_json()
+    ids = [item["id"] for item in data]
+    cursor = mysql.connection.cursor()
+    placeholders = ','.join(['%s'] * len(ids))  # 创建与 ids 列表长度相同的占位符字符串
+    sql = "DELETE FROM sample WHERE id IN ({})".format(placeholders)
+    cursor.execute(sql, ids)
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '添加失败'})
+
+
+@app.route('/sample/save1', methods=['POST'])
+def samplesave1():
+    data = request.form
+    id = data['id']
+    透析方式 = data['透析方式']
+    透析通路 = data['透析通路']
+    平时脱水量比例 = data['平时脱水量比例']
+    充血性心衰 = data['充血性心衰']
+    透析时血压 = data['透析时血压']
+    血红蛋白 = data['血红蛋白']
+    钙 = data['钙']
+    白蛋白 = data['白蛋白']
+    前白蛋白 = data['前白蛋白']
+    LDH = data['LDH']
+    铁 = data['铁']
+    铁蛋白 = data['铁蛋白']
+    住院 = data['住院']
+    cursor = mysql.connection.cursor()
+    sql = "UPDATE sample SET 透析方式 = %s, 透析通路 = %s, 平时脱水量比例 = %s,充血性心衰 = %s,透析时血压 = %s,血红蛋白 = %s,钙 = %s,白蛋白 = %s,前白蛋白 = %s,LDH = %s,铁 = %s,铁蛋白 = %s,住院 = %s WHERE id = %s"
+    cursor.execute(sql, (透析方式, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院,id))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '未修改内容'})

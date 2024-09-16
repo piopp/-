@@ -15,63 +15,49 @@
 
 
 <form class="layui-form" action="" id="form1">
-<br>
+    <br>
     <div class="layui-form-item">
-<!--        <div class="layui-inline">-->
-<!--            <label class="layui-form-label">序号</label>-->
-<!--            <div class="layui-input-inline">-->
-<!--                <input type="text" name="pid" required   autocomplete="off" class="layui-input">-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="layui-inline">
-            <label class="layui-form-label">用户名</label>
+            <label class="layui-form-label">名称</label>
             <div class="layui-input-inline">
-                <input type="text" name="name"  required    autocomplete="off" class="layui-input">
+                <input type="hidden" name="id" required="required" value="{{data.id}}" class="layui-input">
+                <input type="text" name="name"  value="{{data.name}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">密码</label>
+            <label class="layui-form-label">登录权限</label>
             <div class="layui-input-inline">
-                <input type="text" name="password"  required  class="layui-input">
+                <input type="text" name="login_permission" value="{{data.login_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">姓名</label>
+            <label class="layui-form-label">用户管理权限</label>
             <div class="layui-input-inline">
-                <input type="text" name="username" required  autocomplete="off" class="layui-input">
+                <input type="text" name="user_permission" required="required" value="{{data.user_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-
-        <!--<div class="layui-inline">
-            <label class="layui-form-label">生日</label>
-            <div class="layui-input-inline">
-                <input type="text" name="birthday" id="date"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>-->
         <div class="layui-inline">
-            <label class="layui-form-label">权限</label>
+            <label class="layui-form-label">角色管理权限</label>
             <div class="layui-input-inline">
-                <input type="text" name="jurisdiction" required  autocomplete="off" class="layui-input">
+                <input type="text" name="role_permission" required="required" value="{{data.role_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">电话</label>
+            <label class="layui-form-label">样本管理权限</label>
             <div class="layui-input-inline">
-                <input type="text" name="phone"  required   autocomplete="off" class="layui-input">
+                <input type="text" name="sample_permission" required="required" value="{{data.sample_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">邮箱</label>
+            <label class="layui-form-label">预测权限</label>
             <div class="layui-input-inline">
-                <input type="text" name="email"  required   autocomplete="off" class="layui-input">
+                <input type="text" name="predictive_permission" required="required" value="{{data.predictive_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
-
-
 
 
 
@@ -84,67 +70,51 @@
 </div>
 
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
-<script>
+<script th:inline="javascript">
 
-   var $,layer;
-   layui.use(['form','laydate'],function () {
-       var laydate=layui.laydate;
-       $=layui.jquery;
-       layer=layui.layer;
-
-       laydate.render({
-           elem: '#date1'
-       });
-       laydate.render({
-           elem: '#date'
-       });
-   })
-
-   /* layui.use(['form','laydate'],function (){
+    var $,layer;
+    layui.use(['form','laydate'],function (){
 
        var laydate = layui.laydate;
-
        $=layui.jquery;
        layer=layui.layer;
 
         //日期
         laydate.render({
+            elem: '#date1'
+        });
+        laydate.render({
             elem: '#date'
         });
 
-    })*/
-/*
-   function doSave() {
-       var requestData=$("form1").serialize();
-        $.post("/userm/save",requestData,function (responseData) {
-            if (responseData.success==1){
-                parent.layer.alert("添加成功",{yes:function () {
-                        parent.layer.closeAll();
-                        window.parent.location.reload();
-                    }});
-            }
-        });
-   }*/
 
 
+    })
 
     function doSave() {
        var requestData = $("#form1").serialize();
 
-        $.post("/user/save",requestData,function (responseData) {
+        $.post("/role/save",requestData,function (responseData) {
             if(responseData.success == 1){
-               parent.layer.alert("添加用户成功",{yes:function () {
+               parent.layer.alert("更新用户成功",{yes:function () {
                        parent.layer.closeAll();
-/*
-                       window.parent.location.reload();
-*/
-                   }});
+                       var iframe = parent.document.getElementById('content_iFrm');
+                       iframe.contentWindow.location.reload();
+                   }
+               });
+            }else {
+                parent.layer.alert("更新用户失败"+responseData.message,{yes:function () {
+                        parent.layer.closeAll();
+                    }
+                });
+
             }
-            
+
+
+
+
         });
     }
-
-
 
 </script>
 

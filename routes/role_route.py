@@ -30,3 +30,72 @@ def getrole():
         'count': count,
         'data': data
     })
+
+
+
+
+@app.route('/role/edit', methods=['POST'])
+def roleedit():
+    data = request.get_json()
+    return render_template("role/edit.html", data = data)
+
+@app.route('/role/add', methods=['POST'])
+def roleadd():
+    data = request.get_json()
+    return render_template("role/add.html", data = data)
+
+@app.route('/role/save', methods=['POST'])
+def rolesave():
+    data = request.form
+    id = data['id']
+    name = data['name']
+    login_permission = data['login_permission']
+    user_permission = data['user_permission']
+    role_permission = data['role_permission']
+    sample_permission = data['sample_permission']
+    predictive_permission = data['predictive_permission']
+    cursor = mysql.connection.cursor()
+    sql = "INSERT INTO role  (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission)  VALUES (%s,%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '添加失败'})
+
+@app.route('/role/delete', methods=['POST'])
+def roledelete():
+    data = request.get_json()
+    ids = [item["id"] for item in data]
+    cursor = mysql.connection.cursor()
+    placeholders = ','.join(['%s'] * len(ids))  # 创建与 ids 列表长度相同的占位符字符串
+    sql = "DELETE FROM role WHERE id IN ({})".format(placeholders)
+    cursor.execute(sql, ids)
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '添加失败'})
+
+
+@app.route('/role/save1', methods=['POST'])
+def rolesave1():
+    data = request.form
+    id = data['id']
+    name = data['name']
+    login_permission = data['login_permission']
+    user_permission = data['user_permission']
+    role_permission = data['role_permission']
+    sample_permission = data['sample_permission']
+    predictive_permission = data['predictive_permission']
+    cursor = mysql.connection.cursor()
+    sql = "UPDATE role SET name = %s, login_permission = %s, user_permission = %s,role_permission = %s,sample_permission = %s,predictive_permission = %s WHERE id = %s"
+    cursor.execute(sql, (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission,id))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1})
+    else:
+        return jsonify({'success': 0, 'message': '未修改内容'})

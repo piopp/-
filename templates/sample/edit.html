@@ -18,59 +18,98 @@
     <br>
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">用户名字</label>
+            <label class="layui-form-label">名称</label>
             <div class="layui-input-inline">
-                <input type="hidden" name="id" required="required" th:value="${user.id} " class="layui-input">
-                <input type="text" name="name"  th:value="${user.name} "  autocomplete="off" class="layui-input">
+                <input type="hidden" name="id" required="required" value="{{data.id}}" class="layui-input">
+                <input type="text" name="透析方式"  value="{{data.透析方式}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+         <div class="layui-inline">
+            <label class="layui-form-label">透析通路</label>
+            <div class="layui-input-inline">
+                <input type="text" name="透析通路" required="required" value="{{data.透析通路}}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">密码</label>
+            <label class="layui-form-label">平时脱水量比例</label>
             <div class="layui-input-inline">
-                <input type="tel" name="password" th:value="${user.password}" autocomplete="off" class="layui-input">
+                <input type="text" name="平时脱水量比例" required="required" value="{{data.平时脱水量比例}}" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-       <!-- <div class="layui-inline">
-            <label class="layui-form-label">生日</label>
+         <div class="layui-inline">
+            <label class="layui-form-label">充血性心衰</label>
             <div class="layui-input-inline">
-                <input type="text" name="birthday" th:value="${user.birthday}" id="date"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>-->
-        <div class="layui-inline">
-            <label class="layui-form-label">姓名</label>
-            <div class="layui-input-inline">
-                <input type="text" name="username" th:value="${user.username}"  autocomplete="off" class="layui-input">
+                <input type="text" name="充血性心衰" required="required" value="{{data.充血性心衰}}" autocomplete="off" class="layui-input">
             </div>
         </div>
-
-
+        <div class="layui-inline">
+            <label class="layui-form-label">透析时血压</label>
+            <div class="layui-input-inline">
+                <input type="text" name="透析时血压" required="required" value="{{data.透析时血压}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">血红蛋白</label>
+            <div class="layui-input-inline">
+                <input type="text" name="血红蛋白" required="required" value="{{data.血红蛋白}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
     </div>
 
     <div class="layui-form-item">
-
         <div class="layui-inline">
-            <label class="layui-form-label">权限</label>
+            <label class="layui-form-label">钙</label>
             <div class="layui-input-inline">
-                <input type="text" name="jurisdiction" required="required" th:value="${user.jurisdiction}"  autocomplete="off" class="layui-input">
+                <input type="text" name="钙" required="required" value="{{data.钙}}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">手机号</label>
+            <label class="layui-form-label">白蛋白</label>
             <div class="layui-input-inline">
-                <input type="text" name="phone" required="required" th:value="${user.phone}"  autocomplete="off" class="layui-input">
+                <input type="text" name="白蛋白" required="required" value="{{data.白蛋白}}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">电子邮箱</label>
+            <label class="layui-form-label">前白蛋白</label>
             <div class="layui-input-inline">
-                <input type="text" name="email" required="required" th:value="${user.email}"  autocomplete="off" class="layui-input">
+                <input type="text" name="前白蛋白" required="required" value="{{data.前白蛋白}}" autocomplete="off" class="layui-input">
             </div>
         </div>
-
     </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">LDH</label>
+            <div class="layui-input-inline">
+                <input type="text" name="LDH" required="required" value="{{data.LDH}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">铁</label>
+            <div class="layui-input-inline">
+                <input type="text" name="铁" required="required" value="{{data.铁}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">铁蛋白</label>
+            <div class="layui-input-inline">
+                <input type="text" name="铁蛋白" required="required" value="{{data.铁蛋白}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">住院</label>
+            <div class="layui-input-inline">
+                <input type="text" name="住院" required="required" value="{{data.住院}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
 
 
 </form>
@@ -106,16 +145,17 @@
     function doSave() {
        var requestData = $("#form1").serialize();
 
-        $.post("/user/save1",requestData,function (responseData) {
+        $.post("/sample/save1",requestData,function (responseData) {
             if(responseData.success == 1){
                parent.layer.alert("更新用户成功",{yes:function () {
                        parent.layer.closeAll();
+                       var iframe = parent.document.getElementById('content_iFrm');
+                       iframe.contentWindow.location.reload();
                    }
                });
             }else {
-                parent.layer.alert("更新用户失败",{yes:function () {
+                parent.layer.alert("更新用户失败"+responseData.message,{yes:function () {
                         parent.layer.closeAll();
-                        window.parent.location.reload();
                     }
                 });
 

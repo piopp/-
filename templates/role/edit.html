@@ -18,59 +18,47 @@
     <br>
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">用户名字</label>
+            <label class="layui-form-label">名称</label>
             <div class="layui-input-inline">
-                <input type="hidden" name="id" required="required" th:value="${user.id} " class="layui-input">
-                <input type="text" name="name"  th:value="${user.name} "  autocomplete="off" class="layui-input">
+                <input type="hidden" name="id" required="required" value="{{data.id}}" class="layui-input">
+                <input type="text" name="name"  value="{{data.name}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">密码</label>
+            <label class="layui-form-label">登录权限</label>
             <div class="layui-input-inline">
-                <input type="tel" name="password" th:value="${user.password}" autocomplete="off" class="layui-input">
+                <input type="text" name="login_permission" value="{{data.login_permission}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">用户管理权限</label>
+            <div class="layui-input-inline">
+                <input type="text" name="user_permission" required="required" value="{{data.user_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-       <!-- <div class="layui-inline">
-            <label class="layui-form-label">生日</label>
-            <div class="layui-input-inline">
-                <input type="text" name="birthday" th:value="${user.birthday}" id="date"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>-->
         <div class="layui-inline">
-            <label class="layui-form-label">姓名</label>
+            <label class="layui-form-label">角色管理权限</label>
             <div class="layui-input-inline">
-                <input type="text" name="username" th:value="${user.username}"  autocomplete="off" class="layui-input">
+                <input type="text" name="role_permission" required="required" value="{{data.role_permission}}"  autocomplete="off" class="layui-input">
             </div>
         </div>
-
-
+        <div class="layui-inline">
+            <label class="layui-form-label">样本管理权限</label>
+            <div class="layui-input-inline">
+                <input type="text" name="sample_permission" required="required" value="{{data.sample_permission}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">预测权限</label>
+            <div class="layui-input-inline">
+                <input type="text" name="predictive_permission" required="required" value="{{data.predictive_permission}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
     </div>
 
-    <div class="layui-form-item">
-
-        <div class="layui-inline">
-            <label class="layui-form-label">权限</label>
-            <div class="layui-input-inline">
-                <input type="text" name="jurisdiction" required="required" th:value="${user.jurisdiction}"  autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">手机号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="phone" required="required" th:value="${user.phone}"  autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">电子邮箱</label>
-            <div class="layui-input-inline">
-                <input type="text" name="email" required="required" th:value="${user.email}"  autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-    </div>
 
 
 </form>
@@ -106,16 +94,17 @@
     function doSave() {
        var requestData = $("#form1").serialize();
 
-        $.post("/user/save1",requestData,function (responseData) {
+        $.post("/role/save1",requestData,function (responseData) {
             if(responseData.success == 1){
                parent.layer.alert("更新用户成功",{yes:function () {
                        parent.layer.closeAll();
+                       var iframe = parent.document.getElementById('content_iFrm');
+                       iframe.contentWindow.location.reload();
                    }
                });
             }else {
-                parent.layer.alert("更新用户失败",{yes:function () {
+                parent.layer.alert("更新用户失败"+responseData.message,{yes:function () {
                         parent.layer.closeAll();
-                        window.parent.location.reload();
                     }
                 });
 
