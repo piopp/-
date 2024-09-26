@@ -116,15 +116,7 @@ layui.use(['table', 'dropdown'], function(){
                     }
                   });
             break;
-            case 'update':
-              if(data.length !== 1) return layer.msg('请选择一行');
-              layer.open({
-                title: '编辑',
-                type: 1,
-                area: ['80%','80%'],
-                content: '<div style="padding: 16px;">自定义表单元素</div>'
-              });
-            break;
+
             case 'delete':
               if(data.length === 0){
                 return layer.msg('请选择一行');
@@ -135,7 +127,6 @@ layui.use(['table', 'dropdown'], function(){
                     contentType: 'application/json',  // 指定发送的内容类型
                     data: JSON.stringify(data),       // 将数据转换为 JSON 字符串发送
                     success: function(response) {
-                        layer.msg('删除成功');
                       table.reloadData('test', {
                         where: {
                           abc: '123456',

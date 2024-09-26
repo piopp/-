@@ -1,3 +1,5 @@
+import numpy as np
+
 from routes import app, mysql
 from flask import render_template, request, jsonify
 from joblib import dump, load
@@ -7,12 +9,14 @@ def predictlist():
     return render_template("predict/list.html")
 
 
-@app.route('/predict/predict', methods=['POST'])
+@app.route('/predict/save', methods=['POST'])
 def predict():
-    X_new = request.get_json(force=True)
+    form_data = request.form
+    X_new = [float(form_data.get(key)) for key in form_data if key != 'id']
 
-    clf = load('svm_model.joblib')
+    X_new = np.array([X_new])
+    clf = load('predict.joblib')
 
     predictions = clf.predict(X_new)
 
-    print(predictions)
+    return jsonify({'success': 1, 'message': predictions.tolist()})

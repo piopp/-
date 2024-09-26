@@ -1,5 +1,6 @@
 from routes import app, mysql
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
+
 
 @app.route('/role/list')
 def rolelist():
@@ -46,6 +47,12 @@ def roleadd():
 
 @app.route('/role/save', methods=['POST'])
 def rolesave():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.form
     id = data['id']
     name = data['name']
@@ -66,6 +73,12 @@ def rolesave():
 
 @app.route('/role/delete', methods=['POST'])
 def roledelete():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.get_json()
     ids = [item["id"] for item in data]
     cursor = mysql.connection.cursor()
@@ -82,6 +95,12 @@ def roledelete():
 
 @app.route('/role/save1', methods=['POST'])
 def rolesave1():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.form
     id = data['id']
     name = data['name']

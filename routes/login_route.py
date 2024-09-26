@@ -14,10 +14,21 @@ def login_with_id():
     cursor.close()
     if data:
         session['username'] = js['username']
-        return {
-            'code':0,
-            'message':'登录成功'
-        }
+        session['jurisdiction'] = str(data[0][4])
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT login_permission FROM role where id = %s", (session['jurisdiction']))
+        flag = cursor.fetchall()
+        cursor.close()
+        if flag[0][0] == 1:
+            return {
+                'code':0,
+                'message':'登录成功'
+            }
+        else:
+            return {
+                'code':-1,
+                'message':'无登录权限'
+            }
     else:
         return {
             'code':-1,

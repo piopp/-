@@ -1,7 +1,8 @@
 import datetime
 
 from routes import app, mysql
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
+
 
 @app.route('/patient/list')
 def patientlist():
@@ -47,6 +48,12 @@ def patientadd():
 
 @app.route('/patient/save', methods=['POST'])
 def patientsave():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT patient_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.form
     pname = data['pname']
     phistory = data['phistory']
@@ -66,6 +73,12 @@ def patientsave():
 
 @app.route('/patient/delete', methods=['POST'])
 def patientdelete():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT patient_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.get_json()
     ids = [item["pid"] for item in data]
     cursor = mysql.connection.cursor()
@@ -82,6 +95,12 @@ def patientdelete():
 
 @app.route('/patient/save1', methods=['POST'])
 def patientsave1():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT patient_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.form
     pid = data['pid']
     pname = data['pname']

@@ -30,7 +30,7 @@ try:
 
         clf = svm.SVC(kernel='linear', C=1).fit(X_train, y_train)
 
-        dump(clf, 'predict.joblib')
+        dump(clf, '../predict.joblib')
         print(clf.score(X_test, y_test))
 finally:
     conn.close()

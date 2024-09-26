@@ -1,5 +1,6 @@
 from routes import app, mysql
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
+
 
 @app.route('/user/list')
 def userlist():
@@ -17,14 +18,21 @@ def useradd():
 
 @app.route('/user/save', methods=['POST'])
 def usersave():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT user_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.form
     name = data.get('name')
     username = data.get('username')
     jurisdiction = int(data.get('jurisdiction'))
     phone = data.get('phone')
+    password = data.get('password')
     cursor = mysql.connection.cursor()
-    sql = "INSERT INTO user  (name, username, jurisdiction, phone)  VALUES (%s,%s,%s,%s)"
-    cursor.execute(sql, (name, username, jurisdiction, phone))
+    sql = "INSERT INTO user  (name, username,password, jurisdiction, phone)  VALUES (%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (name, username, password,jurisdiction, phone))
     mysql.connection.commit()
     cursor.close()
     if cursor.rowcount > 0:
@@ -34,22 +42,34 @@ def usersave():
 
 @app.route('/user/delete', methods=['POST'])
 def userdelete():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT user_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.get_json()
     ids = [item["id"] for item in data]
     cursor = mysql.connection.cursor()
-    placeholders = ','.join(['%s'] * len(ids))  # 创建与 ids 列表长度相同的占位符字符串
+    placeholders = ','.join(['%s'] * len(ids))
     sql = "DELETE FROM user WHERE id IN ({})".format(placeholders)
     cursor.execute(sql, ids)
     mysql.connection.commit()
     cursor.close()
     if cursor.rowcount > 0:
-        return jsonify({'success': 1})
+        return jsonify({'success': 1, 'message': '删除成功'})
     else:
         return jsonify({'success': 0, 'message': '添加失败'})
 
 
 @app.route('/user/save1', methods=['POST'])
 def usersave1():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT user_permission FROM role where id = %s", (session['jurisdiction']))
+    flag = cursor.fetchall()
+    cursor.close()
+    if flag[0][0] == 0:
+        return jsonify({'success': 0, 'message': '无权限'})
     data = request.form
     user_id = int(data.get('id'))
     name = data.get('name')
