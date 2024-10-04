@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo</title>
+  <link type="text/css" href="{{ url_for('static', filename='layui/css/layui.css') }}" rel="stylesheet">
+
+</head>
+  <style>
+    .text-box-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .text-box {
+      margin: 0 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+      width: 500px; /* 可以根据需要调整宽度 */
+    }
+  </style>
+<body>
+<div class="carousel-container">
+  <div class="layui-carousel" id="ID-carousel-demo-image">
+    <div carousel-item>
+      <div><img src="../static/images/img.png" style="width: 100%; height: 360px;"></div>
+      <div><img src="../static/images/img.png" style="width: 100%; height: 360px;"></div>
+      <div><img src="../static/images/img.png" style="width: 100%; height: 360px;"></div>
+    </div>
+  </div>
+
+  <div class="text-box-container">
+
+    <div class="text-box">
+      <h2>介绍</h2>
+        <p>2019冠状病毒病（COVID-19）对全球各国和地区造成了深远影响，尤其是对老年人及患有多种基础疾病的群体，包括慢性肾病患者。在接受维持性透析的终末期肾脏疾病（ESRD）患者中，常伴随有高血压、肥胖症和糖尿病等多种医学共病。这些患者的免疫系统往往处于失调状态，且因频繁的透析治疗而面临更高的感染风险，使其对COVID-19的脆弱性显著增加。</p>
+        <p>研究显示，肾衰竭被认为是COVID-19患者预后较差的重要危险因素，尤其在流行高峰期间，其死亡率可高达10%至41%。与没有ESRD的COVID-19阳性患者相比，ESRD患者不仅危重症发生率显著升高，而且住院时间也较长。在住院期间，卒中、败血症和肺炎等并发症的发生率明显高于非ESRD患者，进一步导致死亡率的增加。这种高住院率和高病死率不仅对临床医学造成了巨大压力，也对国家卫生保健系统形成了严峻挑战。</p>
+        <p>因此，针对COVID-19在透析患者中的感染率、住院率及死亡率的研究显得尤为重要。通过建立相关模型，我们可以更深入地分析和理解这些患者在COVID-19大流行期间所面临的独特风险和挑战，从而为临床决策和公共卫生政策提供科学依据。</p>
+    </div>
+    <div class="text-box">
+      <h2>模型信息</h2>
+      <p>模型版本： 1.0.0</p>
+        <p>训练时间： 2024/10/3</p>
+        <p>精确度： 97.4%</p>
+    </div>
+  </div>
+</div>
+<script src="../static/layui/layui.js"></script>
+<script>
+layui.use(function(){
+  var carousel = layui.carousel;
+  carousel.render({
+    elem: '#ID-carousel-demo-image',
+    width: '100%',
+    height: '300px',
+    interval: 3000
+  });
+});
+</script>
+</body>
+</html>
