@@ -6,11 +6,30 @@
   <title>Demo</title>
   <link type="text/css" href="{{ url_for('static', filename = 'layui/css/layui.css') }}" rel="stylesheet">
 </head>
-<body>
 <style>
-.demo-login-container{width: 320px; margin: 21px auto 0;}
+  body {
+    background-image: url('../static/images/login2.jpg'); /* 背景图路径 */
+    background-size: 100% 170%;
+    background-position: initial;
+    background-repeat: no-repeat;
+  }
+  .demo-login-container {
+    background: rgba(255, 255, 255, 0.8); /* 添加半透明背景以提高可读性 */
+    padding: 20px; /* 内边距 */
+    border-radius: 5px; /* 圆角边框 */
+  }
+  .demo-login-other .layui-icon {
+    position: relative;
+    display: inline-block;
+    margin: 0 2px;
+    top: 2px;
+    font-size: 26px;
+  }
+  .demo-login-container{width: 320px; margin: 250px 70% 0;}
 .demo-login-other .layui-icon{position: relative; display: inline-block; margin: 0 2px; top: 2px; font-size: 26px;}
 </style>
+
+<body>
 <form class="layui-form">
   <div class="demo-login-container">
     <div class="layui-form-item">
@@ -38,13 +57,7 @@
       <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="demo-login">登录</button>
     </div>
     <div class="layui-form-item demo-login-other">
-      <label>社交账号登录</label>
-      <span style="padding: 0 21px 0 6px;">
-        <a href="javascript:;"><i class="layui-icon layui-icon-login-qq" style="color: #3492ed;"></i></a>
-        <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat" style="color: #4daf29;"></i></a>
-        <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo" style="color: #cf1900;"></i></a>
-      </span>
-      或 <a href="{{ url_for('register') }}">注册帐号</a>
+      <a href="{{ url_for('register') }}">注册帐号</a>
     </div>
   </div>
 </form>

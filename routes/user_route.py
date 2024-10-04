@@ -6,6 +6,7 @@ from flask import render_template, request, jsonify, session
 def userlist():
     return render_template("user/list.html")
 
+
 @app.route('/user/edit', methods=['POST'])
 def useredit():
     data = request.get_json()
@@ -112,3 +113,19 @@ def getuser():
         'count': count,
         'data': data
     })
+
+
+@app.route('/user/change', methods=['POST'])
+def userchange():
+    data = request.get_json()
+    password = data.get('password')
+    print(password)
+    cursor = mysql.connection.cursor()
+    sql = "UPDATE user SET password = %s WHERE name = %s"
+    cursor.execute(sql, (password,session['username']))
+    mysql.connection.commit()
+    cursor.close()
+    if cursor.rowcount > 0:
+        return jsonify({'success': 1, 'message': '修改成功'})
+    else:
+        return jsonify({'success': 1, 'message': '修改失败，确保新密码与原秘密不同'})

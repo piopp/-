@@ -17,7 +17,7 @@ def getrole():
     sql = "SELECT * FROM role LIMIT %s OFFSET %s"
     cursor.execute(sql, (limit, offset))
     result = cursor.fetchall()
-    keys = ["id", "name", "login_permission", "user_permission", "role_permission", "sample_permission", "predictive_permission"]
+    keys = ["id", "name", "login_permission", "user_permission", "role_permission", "sample_permission", "predictive_permission","patient_permission"]
     data = [dict(zip(keys, item)) for item in result]
     sql = "SELECT COUNT(*) FROM user"
     cursor.execute(sql)
@@ -48,7 +48,7 @@ def roleadd():
 @app.route('/role/save', methods=['POST'])
 def rolesave():
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction']))
+    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction'],))
     flag = cursor.fetchall()
     cursor.close()
     if flag[0][0] == 0:
@@ -61,9 +61,10 @@ def rolesave():
     role_permission = data['role_permission']
     sample_permission = data['sample_permission']
     predictive_permission = data['predictive_permission']
+    patient_permission = data['patient_permission']
     cursor = mysql.connection.cursor()
-    sql = "INSERT INTO role  (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission)  VALUES (%s,%s,%s,%s,%s,%s)"
-    cursor.execute(sql, (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission))
+    sql = "INSERT INTO role  (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission,patient_permission)  VALUES (%s,%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission,patient_permission))
     mysql.connection.commit()
     cursor.close()
     if cursor.rowcount > 0:
@@ -74,7 +75,7 @@ def rolesave():
 @app.route('/role/delete', methods=['POST'])
 def roledelete():
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction']))
+    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction'],))
     flag = cursor.fetchall()
     cursor.close()
     if flag[0][0] == 0:
@@ -96,7 +97,7 @@ def roledelete():
 @app.route('/role/save1', methods=['POST'])
 def rolesave1():
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction']))
+    cursor.execute("SELECT role_permission FROM role where id = %s", (session['jurisdiction'],))
     flag = cursor.fetchall()
     cursor.close()
     if flag[0][0] == 0:
@@ -109,9 +110,10 @@ def rolesave1():
     role_permission = data['role_permission']
     sample_permission = data['sample_permission']
     predictive_permission = data['predictive_permission']
+    patient_permission = data['patient_permission']
     cursor = mysql.connection.cursor()
-    sql = "UPDATE role SET name = %s, login_permission = %s, user_permission = %s,role_permission = %s,sample_permission = %s,predictive_permission = %s WHERE id = %s"
-    cursor.execute(sql, (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission,id))
+    sql = "UPDATE role SET name = %s, login_permission = %s, user_permission = %s,role_permission = %s,sample_permission = %s,predictive_permission = %s,patient_permission = %s WHERE id = %s"
+    cursor.execute(sql, (name, login_permission, user_permission, role_permission, sample_permission, predictive_permission,patient_permission,id))
     mysql.connection.commit()
     cursor.close()
     if cursor.rowcount > 0:

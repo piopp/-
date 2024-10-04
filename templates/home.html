@@ -18,7 +18,7 @@
       <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
         <i class="layui-icon layui-icon-spread-left"></i>
       </li>
-      <li class="layui-nav-item layui-hide-xs"><a href="javascript:;">主页</a></li>
+      <li class="layui-nav-item layui-hide-xs"><a href="/host" target="content_iFrm">主页</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
@@ -26,9 +26,8 @@
           {{ username }}
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="javascript:;">Your Profile</a></dd>
-          <dd><a href="javascript:;">Settings</a></dd>
-          <dd><a href="javascript:;">Sign out</a></dd>
+          <dd><a href="/setting" target="content_iFrm">修改密码</a></dd>
+          <dd><a href="/logout">退出登录</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
@@ -57,16 +56,13 @@
               <dd><a href="/sample/list" target="content_iFrm">样本管理</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item">
-          <a href="/login">退出登录</a>
-        </li>
       </ul>
     </div>
   </div>
   <div class="layui-body">
         <!-- 内容主体区域 -->
     <iframe name="content_iFrm" id="content_iFrm" frameborder="0" style="width: 100%; height: 100%;"
-            src="/user/list">
+            src="/host">
     </iframe>
 
     </div>
@@ -94,8 +90,8 @@ layui.use(['element', 'layer', 'util'], function(){
     menuRight: function(){  // 右侧菜单事件
       layer.open({
         type: 1,
-        title: '更多',
-        content: '<div style="padding: 15px;">处理右侧面板的操作</div>',
+        title: '最新消息',
+        content: '<div style="padding: 15px;">更新至 1.0.0 </div>',
         area: ['260px', '100%'],
         offset: 'rt', // 右上角
         anim: 'slideLeft', // 从右侧抽屉滑出

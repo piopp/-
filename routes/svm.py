@@ -23,9 +23,8 @@ try:
         columns = [i[0] for i in cursor.description]
         df = pd.DataFrame(result, columns=columns)
         n = df.shape[1]
-        X = df.iloc[:, 1:n - 2]
+        X = df.iloc[:, 1:n - 1]
         y = df.iloc[:, n-1]
-
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=17, shuffle=True)
 
         clf = svm.SVC(kernel='linear', C=1).fit(X_train, y_train)

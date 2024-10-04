@@ -54,6 +54,7 @@ def samplesave():
     data = request.form
     id = data['id']
     透析方式 = data['透析方式']
+    透析年限 = data['透析年限']
     透析通路 = data['透析通路']
     平时脱水量比例 = data['平时脱水量比例']
     充血性心衰 = data['充血性心衰']
@@ -67,8 +68,8 @@ def samplesave():
     铁蛋白 = data['铁蛋白']
     住院 = data['住院']
     cursor = mysql.connection.cursor()
-    sql = "INSERT INTO sample  (透析方式, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    cursor.execute(sql, (透析方式, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院))
+    sql = "INSERT INTO sample  (透析方式, 透析年限,透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (透析方式,透析年限, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院))
     mysql.connection.commit()
     cursor.close()
     if cursor.rowcount > 0:
@@ -101,6 +102,7 @@ def sampledelete():
 @app.route('/sample/save1', methods=['POST'])
 def samplesave1():
     cursor = mysql.connection.cursor()
+    print(session['jurisdiction'])
     cursor.execute("SELECT sample_permission FROM role where id = %s", (session['jurisdiction']))
     flag = cursor.fetchall()
     cursor.close()
@@ -109,6 +111,7 @@ def samplesave1():
     data = request.form
     id = data['id']
     透析方式 = data['透析方式']
+    透析年限 = data['透析年限']
     透析通路 = data['透析通路']
     平时脱水量比例 = data['平时脱水量比例']
     充血性心衰 = data['充血性心衰']
@@ -122,8 +125,8 @@ def samplesave1():
     铁蛋白 = data['铁蛋白']
     住院 = data['住院']
     cursor = mysql.connection.cursor()
-    sql = "UPDATE sample SET 透析方式 = %s, 透析通路 = %s, 平时脱水量比例 = %s,充血性心衰 = %s,透析时血压 = %s,血红蛋白 = %s,钙 = %s,白蛋白 = %s,前白蛋白 = %s,LDH = %s,铁 = %s,铁蛋白 = %s,住院 = %s WHERE id = %s"
-    cursor.execute(sql, (透析方式, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院,id))
+    sql = "UPDATE sample SET 透析方式 = %s,透析年限 = %s ,透析通路 = %s, 平时脱水量比例 = %s,充血性心衰 = %s,透析时血压 = %s,血红蛋白 = %s,钙 = %s,白蛋白 = %s,前白蛋白 = %s,LDH = %s,铁 = %s,铁蛋白 = %s,住院 = %s WHERE id = %s"
+    cursor.execute(sql, (透析方式,透析年限, 透析通路, 平时脱水量比例, 充血性心衰, 透析时血压, 血红蛋白, 钙, 白蛋白, 前白蛋白, LDH, 铁, 铁蛋白, 住院,id))
     mysql.connection.commit()
     cursor.close()
     if cursor.rowcount > 0:

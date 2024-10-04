@@ -42,3 +42,10 @@ def tohome():
     if username != 'Guest':
         return render_template('home.html', username=username)
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('jurisdiction', None)
+    session.pop('username', None)
+    # session.clear()
+    return render_template('login.html')

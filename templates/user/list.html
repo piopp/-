@@ -63,11 +63,11 @@ layui.use(['table', 'dropdown'], function(){
     cols: [[
       {type: 'checkbox', fixed: 'left'},
       {field:'id', fixed: 'left', width:80, title: 'ID', sort: true},
-      {field:'name', width:80, title: '用户名'},
-      {field:'username', width:80, title: '姓名'},
-      {field:'jurisdiction', width:80, title: '角色'},
-      {field:'phone', title:'电话号码', width: 120},
-      {fixed: 'right', title:'操作', width: 134, minWidth: 125, toolbar: '#barDemo'}
+      {field:'name', width:180, title: '用户名'},
+      {field:'username', width:180, title: '姓名'},
+      {field:'jurisdiction', width:180, title: '角色'},
+      {field:'phone', title:'电话号码', width: 180},
+      {fixed: 'right', title:'操作', width: 134, minWidth: 80, toolbar: '#barDemo'}
     ]],
     done: function(){
       var id = this.id;
